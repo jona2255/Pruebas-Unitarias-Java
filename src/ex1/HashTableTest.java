@@ -38,13 +38,27 @@ class HashTableTest {
     @org.junit.jupiter.api.Test
     void drop() {
 
+        // no borrar si esta vacio
+
+        // no borrar si no encuentra key en esa posicion
+
+        // borrar caso solitario
+
+        // al borrar una entrada que este en medio, remplazar por la siguiente. hay que jugar con el .next y .previous
+        // si es el ultimo, .previous.next = null
+        // si es el primero, entries[i] =  .next, .next.previous = null
 
     }
 
     @org.junit.jupiter.api.Test
     void realSize() {
 
-        Assertions.assertEquals(16,16);
+        for (int i = 0; i < 20; i++) {
+            Assertions.assertEquals(i, i);
+
+        }
+        Assertions.assertEquals(1,16);
+        Assertions.assertEquals(2,0);
 
     }
 
