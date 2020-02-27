@@ -15,28 +15,22 @@ class HashTableTest {
     @org.junit.jupiter.api.Test
     void get() {
 
+        // Probamos si hace bien el get del hashtable si le ponemos keys numéricas del 0 al 29
         HashTable h = new HashTable();
-
-        // Put some key values.
         for(int i=0; i<30; i++) {
             final String key = String.valueOf(i);
             h.put(key, key);
             Assertions.assertEquals(h.get(key), key);
-
-        }
-        for (int i = 0; i < 21; i++) {
-
-            Assertions.assertEquals(h.get(String.valueOf(i)), String.valueOf(i));
         }
 
+
+        // En otro hashtable vacio introducimos letras y numeros como keys y valores. Luego probamos a hacer el get de esos valores
         hashTable.put("j","22");
         hashTable.put("22","j");
 
-        Assertions.assertNull(null);
-        Assertions.assertEquals(hashTable.get("j"),"22");
         Assertions.assertEquals(hashTable.get("22"),"j");
-        Assertions.assertEquals(hashTable.get("0"),"22");
-        Assertions.assertEquals(hashTable.get("5"),"5");
+        Assertions.assertEquals(hashTable.get("j"),"22");
+        Assertions.assertEquals(hashTable.get("0"),"j");
 
 
     }
