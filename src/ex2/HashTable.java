@@ -4,7 +4,8 @@ import java.util.ArrayList;
 // Modified by Fernando Porrino Serrano for academic purposes.
 
 
-// REFACTOR: He hecho un refactor de clase en el método main por que ese método no tiene que estar en esta clase. Lo he puesto en la clase Main
+// REFACTOR: He hecho una extracción de clase en el método main por que ese método no tiene que estar en esta clase. Lo he puesto en la clase Main
+// REFACTOR: He hecho un extracción de método en las clases get y drop, el cual repetía el bucle que recorría la tabla
 public class HashTable {
     private int INITIAL_SIZE = 16;
     private int size = 0;
@@ -43,8 +44,7 @@ public class HashTable {
         if(entries[hash] != null) {
             HashEntry temp = entries[hash];
 
-            while( !temp.key.equals(key) && temp.next != null)
-                temp = temp.next;
+            temp = getHashEntry(key, temp);  // Llama al método getHashEntry, creado por el Refactor
 
             return temp.value;
         }
@@ -52,14 +52,20 @@ public class HashTable {
         return null;
     }
 
+    // Método creado por el Refactor
+    private HashEntry getHashEntry(String key, HashEntry temp) {
+        while (!temp.key.equals(key) && temp.next != null)
+            temp = temp.next;
+        return temp;
+    }
+
     public void drop(String key) {
         int hash = getHash(key);
 
         if(entries[hash] != null) {
-
             HashEntry temp = entries[hash];
-            while( !temp.key.equals(key))
-                temp = temp.next;
+
+            temp = getHashEntry(key, temp); // Llama al método getHashEntry, creado por el Refactor
 
             if(temp.prev == null && temp.next == null) entries[hash] = null;     //esborrar element únic (no col·lissió)
             else{

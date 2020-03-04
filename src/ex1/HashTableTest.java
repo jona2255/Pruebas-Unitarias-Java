@@ -78,7 +78,7 @@ class HashTableTest {
         hashTable.put("3","3");
         hashTable.drop("2");
         hashTable.drop("3");
-
+        System.out.println(hashTable);
         Assertions.assertEquals("\n bucket[0] = [0, 0]\n" +
                 " bucket[1] = [1, 1]", hashTable.toString());
 

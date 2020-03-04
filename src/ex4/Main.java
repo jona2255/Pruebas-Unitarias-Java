@@ -1,4 +1,4 @@
-package ex3;
+package ex4;
 
 public class Main {
 

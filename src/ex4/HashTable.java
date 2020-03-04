@@ -1,23 +1,45 @@
-package ex3;
+package ex4;
 import java.util.ArrayList;
 // Original source code: https://gist.github.com/amadamala/3cdd53cb5a6b1c1df540981ab0245479
 // Modified by Fernando Porrino Serrano for academic purposes.
 
 
-// REFACTOR: He hecho un refactor de clase en el método main por que ese método no tiene que estar en esta clase. Lo he puesto en la clase Main
+// REFACTOR: He hecho una extracción de clase en el método main por que ese método no tiene que estar en esta clase. Lo he puesto en la clase Main
+// REFACTOR: He hecho un extracción de método en las clases get y drop, el cual repetía el bucle que recorría la tabla
+
+
+/**
+ * The type Hash table.
+ */
 public class HashTable {
     private int INITIAL_SIZE = 16;
     private int size = 0;
     private HashEntry[] entries = new HashEntry[INITIAL_SIZE];
 
+    /**
+     * Size int. Devuelve el tamaño de la tabla, indicando el numero de entradas en la tabla
+     *
+     * @return the int
+     */
     public int size(){
         return this.size;
     }
 
+    /**
+     * Real size int. Devulve el tamaño inicial de la tabla.
+     *
+     * @return the int
+     */
     public int realSize(){
         return this.INITIAL_SIZE;
     }
 
+    /**
+     * Put. Introduce los datos en la tabla.
+     *
+     * @param key   the key
+     * @param value the value
+     */
     public void put(String key, String value) {
         int hash = getHash(key);
         final HashEntry hashEntry = new HashEntry(key, value);
@@ -36,15 +58,17 @@ public class HashTable {
     }
 
     /**
-     * Returns 'null' if the element is not found.
+     * Returns 'null' if the element is not found. Devuelve el valor de la posición de la tabla que buscas
+     *
+     * @param key the key
+     * @return the value
      */
     public String get(String key) {
         int hash = getHash(key);
         if(entries[hash] != null) {
             HashEntry temp = entries[hash];
 
-            while( !temp.key.equals(key) && temp.next != null)
-                temp = temp.next;
+            temp = getHashEntry(key, temp);  // Llama al método getHashEntry, creado por el Refactor
 
             return temp.value;
         }
@@ -52,14 +76,31 @@ public class HashTable {
         return null;
     }
 
+    /**
+     * Recorre la a tabla y te devuelve el HashEntry que buscaba
+     * @param key
+     * @param temp
+     * @return
+     */
+    // Método creado por el Refactor
+    private HashEntry getHashEntry(String key, HashEntry temp) {
+        while (!temp.key.equals(key) && temp.next != null)
+            temp = temp.next;
+        return temp;
+    }
+
+    /**
+     * Drop. Borra una entrada de la tabla
+     *
+     * @param key the key
+     */
     public void drop(String key) {
         int hash = getHash(key);
 
         if(entries[hash] != null) {
-
             HashEntry temp = entries[hash];
-            while( !temp.key.equals(key))
-                temp = temp.next;
+
+            temp = getHashEntry(key, temp); // Llama al método getHashEntry, creado por el Refactor
 
             if(temp.prev == null && temp.next == null) entries[hash] = null;     //esborrar element únic (no col·lissió)
             else{
@@ -76,13 +117,23 @@ public class HashTable {
     }
 
     private class HashEntry {
+
         String key;
+
         String value;
 
-        // Linked list of same hash entries.
+
+// Linked list of same hash entries.
         HashEntry next;
+
         HashEntry prev;
 
+        /**
+         * Instantiates a new Hash entry.
+         *
+         * @param key   the key
+         * @param value the value
+         */
         public HashEntry(String key, String value) {
             this.key = key;
             this.value = value;
@@ -95,6 +146,7 @@ public class HashTable {
             return "[" + key + ", " + value + "]";
         }
     }
+
 
     @Override
     public String toString() {
@@ -121,10 +173,23 @@ public class HashTable {
         return hashTableStr.toString();
     }
 
+    /**
+     * Gets collisions for key.
+     *
+     * @param key the key
+     * @return the collisions for key
+     */
     public ArrayList<String> getCollisionsForKey(String key) {
         return getCollisionsForKey(key, 1);
     }
 
+    /**
+     * Get collisions for key array list.
+     *
+     * @param key      the key
+     * @param quantity the quantity
+     * @return the array list
+     */
     public ArrayList<String> getCollisionsForKey(String key, int quantity){
         /*
           Main idea:
@@ -185,6 +250,11 @@ public class HashTable {
         return  foundKeys;
     }
 
+    /**
+     * Log.
+     *
+     * @param msg the msg
+     */
     static void log(String msg) {
         System.out.println(msg);
     }
