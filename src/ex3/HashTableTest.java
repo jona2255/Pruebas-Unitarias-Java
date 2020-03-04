@@ -1,4 +1,4 @@
-package ex1;
+package ex3;
 
 import org.junit.jupiter.api.Assertions;
 
